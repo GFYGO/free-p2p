@@ -1,0 +1,17 @@
+{
+  "name": "p2p-addressing",
+  "version": "0.1.0",
+  "private": true,
+  "description": "P2P peer addressing & signaling service on Cloudflare Workers",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "wrangler check",
+    "types": "wrangler types"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261001.1",
+    "wrangler": "^4.0.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "p2p-addressing",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-02",
+  "compatibility_flags": ["nodejs_compat"],
+
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+
+  "vars": {
+    "PEER_TTL_SECONDS": "300"
+  },
+
+  "kv_namespaces": [
+    { "binding": "PEER_REGISTRY", "id": "auto" }
+  ],
+
+  "durable_objects": {
+    "bindings": [
+      { "name": "PEER_SIGNALING", "class_name": "PeerSignalingDO" }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["PeerSignalingDO"]
+    }
+  ]
+}

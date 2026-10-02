@@ -1,0 +1,28 @@
+# Dependencies
+node_modules/
+
+# Wrangler
+.wrangler/
+worker-configuration.d.ts
+
+# Environment / secrets
+.dev.vars
+.env
+.env.*
+
+# Build output
+dist/
+build/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
