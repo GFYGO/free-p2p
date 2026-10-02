@@ -4,6 +4,7 @@
   "main": "src/index.ts",
   "compatibility_date": "2026-10-02",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
 
   "observability": {
     "enabled": true,
@@ -15,7 +16,7 @@
   },
 
   "kv_namespaces": [
-    { "binding": "PEER_REGISTRY", "id": "auto" }
+    { "binding": "PEER_REGISTRY", "id": "b9bdde9fc999417a84b53d45e8808298" }
   ],
 
   "durable_objects": {
@@ -29,5 +30,9 @@
       "tag": "v1",
       "new_sqlite_classes": ["PeerSignalingDO"]
     }
+  ],
+
+  "routes": [
+    { "pattern": "free-p2p.gwl.net.cn/*", "zone_name": "gwl.net.cn" }
   ]
 }
