@@ -1,8 +1,9 @@
-// Environment bindings. In production, regenerate with `wrangler types`.
-import type { PeerSignalingDO } from "./PeerSignalingDO";
+import type { RoomDO } from "./room";
 
 export interface Env {
-  PEER_REGISTRY: KVNamespace;
-  PEER_SIGNALING: DurableObjectNamespace<PeerSignalingDO>;
-  PEER_TTL_SECONDS: string;
+  ROOMS: DurableObjectNamespace<RoomDO>;
+  PEER_TTL_SECONDS?: string;
+  MAX_PEERS_PER_ROOM?: string;
+  /** Optional shared secret. When set, /api/* requires X-Room-Secret. */
+  ROOM_SECRET?: string;
 }

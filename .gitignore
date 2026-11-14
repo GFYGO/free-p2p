@@ -1,8 +1,9 @@
 # Dependencies
 node_modules/
 
-# Wrangler
+# Wrangler / Worker build output
 .wrangler/
+dist/
 worker-configuration.d.ts
 
 # Environment / secrets
@@ -10,9 +11,18 @@ worker-configuration.d.ts
 .env
 .env.*
 
-# Build output
-dist/
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
 build/
+
+# p2punch local state (per-peer auth secrets)
+.p2punch/
+*.p2punch.json
 
 # Editor
 .vscode/

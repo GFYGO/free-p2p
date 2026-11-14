@@ -1,9 +1,8 @@
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "p2p-addressing",
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "p2punch",
   "main": "src/index.ts",
   "compatibility_date": "2026-10-02",
-  "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
 
   "observability": {
@@ -12,27 +11,26 @@
   },
 
   "vars": {
-    "PEER_TTL_SECONDS": "300"
+    // 节点超过这个时间没有 heartbeat 就会被判定离线并移除
+    "PEER_TTL_SECONDS": "45",
+    // 每个房间最多允许的在线节点数
+    "MAX_PEERS_PER_ROOM": "256"
   },
 
-  "kv_namespaces": [
-    { "binding": "PEER_REGISTRY", "id": "b9bdde9fc999417a84b53d45e8808298" }
-  ],
+  // 可选：设置后，所有 /api/* 请求都必须带匹配的 X-Room-Secret 头。
+  // 用 `wrangler secret put ROOM_SECRET` 设置，不要写进这个文件。
+  // "ROOM_SECRET": "change-me"
 
   "durable_objects": {
     "bindings": [
-      { "name": "PEER_SIGNALING", "class_name": "PeerSignalingDO" }
+      { "name": "ROOMS", "class_name": "RoomDO" }
     ]
   },
 
   "migrations": [
     {
       "tag": "v1",
-      "new_sqlite_classes": ["PeerSignalingDO"]
+      "new_sqlite_classes": ["RoomDO"]
     }
-  ],
-
-  "routes": [
-    { "pattern": "free-p2p.gwl.net.cn/*", "zone_name": "gwl.net.cn" }
   ]
 }

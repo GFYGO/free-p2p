@@ -1,38 +1,59 @@
-// Shared type definitions for the P2P addressing service.
+// Shared wire types for the rendezvous API.
 
-/** Information a peer announces about itself. */
-export interface PeerAnnouncement {
-  /** Stable identifier for the peer. */
-  peerId: string;
-  /** Reachable address (IP or hostname). */
-  address: string;
-  /** Listening port. */
+export interface Endpoint {
+  host: string;
   port: number;
-  /** Optional free-form metadata (e.g. capabilities, version). */
-  metadata?: Record<string, unknown>;
+  family: 4 | 6;
 }
 
-/** Stored peer record returned by lookups. */
-export interface PeerRecord extends PeerAnnouncement {
-  /** Epoch ms when the record was last announced. */
+/** Body of POST /api/announce. Also used as the heartbeat. */
+export interface AnnounceRequest {
+  room: string;
+  peerId: string;
+  secret: string;
+  punchKey: string;
+  natType: string;
+  publicEndpoint: Endpoint | null;
+  localEndpoint: Endpoint | null;
+  metadata?: Record<string, unknown> | null;
+}
+
+/** What other peers in the room are allowed to see. */
+export interface PeerView {
+  peerId: string;
+  punchKey: string;
+  natType: string;
+  publicEndpoint: Endpoint | null;
+  localEndpoint: Endpoint | null;
+  observedIp: string;
   lastSeen: number;
-  /** Epoch ms when the record expires. */
-  expiresAt: number;
+  online: true;
+  metadata: Record<string, unknown> | null;
 }
 
-/** Signaling message relayed between peers over WebSocket. */
-export interface SignalingMessage {
-  type: "offer" | "answer" | "ice-candidate" | "bye" | string;
-  /** Sender peer id (set by the server). */
-  from?: string;
-  /** Recipient peer id. */
-  to: string;
-  /** Arbitrary payload (SDP, ICE candidate, etc.). */
-  data?: unknown;
+export interface AnnounceResponse {
+  ok: true;
+  room: string;
+  self: PeerView;
+  peers: PeerView[];
+  ttlSeconds: number;
+  heartbeatSeconds: number;
+  serverTime: number;
 }
 
-/** A relayed message envelope stored for offline peers. */
-export interface RelayedMessage extends SignalingMessage {
-  id: string;
-  timestamp: number;
+export interface PeersResponse {
+  ok: true;
+  room: string;
+  peers: PeerView[];
+  ttlSeconds: number;
+  serverTime: number;
 }
+
+export interface LeaveResponse {
+  ok: true;
+  removed: boolean;
+}
+
+export type RpcResult<T> =
+  | T
+  | { ok: false; status: number; error: string };
